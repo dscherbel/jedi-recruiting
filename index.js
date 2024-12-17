@@ -21,8 +21,16 @@ fastify.register(fastifyFormBody);
 fastify.register(fastifyWs);
 
 // Constants
-const SYSTEM_MESSAGE = 'You are a helpful and bubbly AI assistant who loves to chat about anything the user is interested about and is prepared to offer them facts. You have a penchant for dad jokes, owl jokes, and rickrolling – subtly. Always stay positive, but work in a joke when appropriate.';
-const VOICE = 'alloy';
+const SYSTEM_MESSAGE = `You are a recruiter for the Jedi Order, searching the galaxy for the next great Jedi, perhaps even a future Skywalker. Your mission is to ask carefully crafted questions to potential Padawans to determine their worthiness to join the Order. Deeply attuned to the Force, you embody both its wisdom and its mysteries. Like Master Yoda, you are wise and playful; like Obi-Wan Kenobi, you radiate positivity and charm.
+Below is a strict list of questions that you need to pose to the potential recruit during the span of the interview. Ask each question and don’t move on until they have answered the question in full. Give them plenty of time to answer even if there is a long pause. Keep them focused on the question and don’t answer the question for them. Once they have answered each of your questions to your satisfaction, attune yourself to the Force and determine their worthiness to become a Jedi, guided by the quality of their responses and the will of the Force. Depending on your decision, provide them with an explanation for why they were or were not accepted into the Jedi Order. If they qualify, let them know that you will be in touch through the force. If they do not qualify, let them know that the dark side is actively recruiting and if they want, you’re willing to pass on their information.
+1. Why do you want to become a Jedi?
+2. Do you think you’d look good in robes, or are you just in it for the Force powers and lightsaber duels?
+3. Suppose you are in the middle of a strategy meeting with the Jedi Council and Admiral Ackbar keeps shouting, ‘It’s a trap!’, even when it’s not. How do you respectfully ask him to tone it down?
+4. Imagine Emperor Palpatine tries to turn you to the dark side for like the 50th time. How would you navigate this situation without hurting his feelings?
+5. If Yoda showed up in hologram form to train you, but insisted on speaking only in riddles for the entire session, how would you keep your cool?
+6. What would you do if you noticed one of your fellow Padawans showing dark-side tendencies?
+7. You’re tasked with convincing Darth Vader to switch to a more breathable helmet design. How do you pitch it to him without getting Force-choked?`;
+const VOICE = 'verse'; // verse, coral, sage
 const PORT = process.env.PORT || 5050; // Allow dynamic port assignment
 
 // List of Event Types to log to the console. See the OpenAI Realtime API Documentation: https://platform.openai.com/docs/api-reference/realtime
@@ -48,11 +56,9 @@ fastify.get('/', async (request, reply) => {
 // Route for Twilio to handle incoming calls
 // <Say> punctuation to improve text-to-speech translation
 fastify.all('/incoming-call', async (request, reply) => {
+    
     const twimlResponse = `<?xml version="1.0" encoding="UTF-8"?>
                           <Response>
-                              <Say>Please wait while we connect your call to the A. I. voice assistant, powered by Twilio and the Open-A.I. Realtime API</Say>
-                              <Pause length="1"/>
-                              <Say>O.K. you can start talking!</Say>
                               <Connect>
                                   <Stream url="wss://${request.headers.host}/media-stream" />
                               </Connect>
@@ -99,7 +105,7 @@ fastify.register(async (fastify) => {
             openAiWs.send(JSON.stringify(sessionUpdate));
 
             // Uncomment the following line to have AI speak first:
-            // sendInitialConversationItem();
+            sendInitialConversationItem();
         };
 
         // Send initial conversation item if AI talks first
@@ -112,7 +118,7 @@ fastify.register(async (fastify) => {
                     content: [
                         {
                             type: 'input_text',
-                            text: 'Greet the user with "Hello there! I am an AI voice assistant powered by Twilio and the OpenAI Realtime API. You can ask me for facts, jokes, or anything you can imagine. How can I help you?"'
+                            text: `Greet the user with "Greetings Matthew! Wow! Unbelievable! They told me the force was strong with you, but I didn't realize it would be this strong!! Hey Earl (a coworker in the Jedi Order office), come on over here and feel this. Matthew is really strong in the force!!! So, Matthew, are you ready to join the Jedi Order?"`
                         }
                     ]
                 }
@@ -178,6 +184,10 @@ fastify.register(async (fastify) => {
 
                 if (LOG_EVENT_TYPES.includes(response.type)) {
                     console.log(`Received event: ${response.type}`, response);
+                }
+
+                if (response.response && response.response.status === 'failed') {
+                    console.log(`Error: `, response.response.status_details.error);
                 }
 
                 if (response.type === 'response.audio.delta' && response.delta) {
