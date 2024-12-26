@@ -127,7 +127,7 @@ fastify.register(async (fastify) => {
                         threshold: 0.5,
                         // Minimum duration of speech (in milliseconds) required to start a new speech chunk.
                         // This helps prevent very short sounds from triggering speech detection.
-                        prefix_padding_ms: 1000,
+                        prefix_padding_ms: 500,
                         // Minimum duration of silence (in milliseconds) at the end of speech before ending the speech segment.
                         // This ensures brief pauses do not prematurely end a speech segment.
                         silence_duration_ms: 1000
