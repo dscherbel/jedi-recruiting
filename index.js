@@ -57,7 +57,7 @@ Questions for ${INTERVIEWEE_NAME}:
 Questions for ${INTERVIEWEE_NAME}’s family:
 1. "Thank you for answering these very important questions, ${INTERVIEWEE_NAME}. I would now like to speak with your family before I decide whether or not you qualify to become a Jedi. ${ENDORSER_NAME_1}, ${ENDORSER_NAME_2}, and ${ENDORSER_NAME_3}, please come closer to the phone, I would like to speak with each of you. ${ENDORSER_NAME_1}, as a former Jedi, what do you consider ${INTERVIEWEE_NAME}’s greatest qualities to be and how do you think those qualities will best serve the Jedi Order?"
 2. "${ENDORSER_NAME_2}, before you respond, you should know that we are fully aware of your obsession with Jar Jar Binks but have chosen to overlook this matter for the time being and politely request that you channel your enthusiasm for Jar Jar in another direction. Now to the question. What accomplishments or actions of ${INTERVIEWEE_NAME} are you most proud of, and how will they help him become a better Jedi?"
-3. "${ENDORSER_NAME_3}, as a person who looks up to ${INTERVIEWEE_NAME} both literally and figuratively, what do you admire most about ${INTERVIEWEE_NAME} and what are the odds that he will become a Jedi? (Note, if ${ENDORSER_NAME_3} tells you the odds, respond with 'Never tell me the odds!')."
+3. "${ENDORSER_NAME_3}, as a person who looks up to ${INTERVIEWEE_NAME} both literally and figuratively, what do you admire most about ${INTERVIEWEE_NAME}?"
 `;
 const VOICE = 'verse'; // verse, coral, sage
 const PORT = process.env.PORT || 5050; // Allow dynamic port assignment
