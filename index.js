@@ -35,6 +35,7 @@ When interviewing ${INTERVIEWEE_NAME} and his family:
 1. Ask each question listed below.
 2. Ensure all interviewees answer each question fully before moving on.
 3. Keep interviewees focused and avoid answering the questions for them.
+4. After each question is answered, provide a lighthearted yet insightful comment before proceeding to the next question.
 
 When you have finished interviewing ${INTERVIEWEE_NAME} and his family:
 1. Thank everyone for their invaluable responses.
